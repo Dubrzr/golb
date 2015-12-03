@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% load static %}
+
+{% block contents %}
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Paper</h1>
+                <p class="lead">Material is the metaphor</p>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-6">
+                <div class="sponsor">
+                    <a href="http://www.shopify.com/?ref=bootswatch" target="_blank" onclick="_gaq.push(['_trackEvent', 'banner', 'click', 'shopify']);">
+                        <img src="../assets/img/shopify.png" alt="Shopify" width="180" height="150" onload="_gaq.push(['_trackEvent', 'banner', 'impression', 'shopify']);">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-4">
+                <div class="list-group table-of-contents">
+                    <a class="list-group-item" href="#navbar">Navbar</a>
+                    <a class="list-group-item" href="#buttons">Buttons</a>
+                    <a class="list-group-item" href="#typography">Typography</a>
+                    <a class="list-group-item" href="#tables">Tables</a>
+                    <a class="list-group-item" href="#forms">Forms</a>
+                    <a class="list-group-item" href="#navs">Navs</a>
+                    <a class="list-group-item" href="#indicators">Indicators</a>
+                    <a class="list-group-item" href="#progress-bars">Progress bars</a>
+                    <a class="list-group-item" href="#containers">Containers</a>
+                    <a class="list-group-item" href="#dialogs">Dialogs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar
+    ================================================== -->
+    <div class="bs-docs-section clearfix">
+    <div class="row">
+    </div>
+{% endblock %}
