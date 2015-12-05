@@ -1,4 +1,4 @@
-from site import settings
+from blog import settings
 
 
 def site_info(request):

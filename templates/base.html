@@ -1,4 +1,4 @@
-{% load static %}
+{% load staticfiles %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -13,7 +13,8 @@
   <script src="https://bootswatch.com/bower_components/html5shiv/dist/html5shiv.js"></script>
   <script src="https://bootswatch.com/bower_components/respond/dest/respond.min.js"></script>
   <![endif]-->
-    <link rel="stylesheet" href="{% static 'fonts/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/josefin_sans/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'custom.css' %}">
     {% block page_style %}{% endblock %}
 </head>
 <body>
@@ -29,76 +30,45 @@
             </div>
             <div class="navbar-collapse collapse" id="navbar-main">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" aria-labelledby="themes">
-                            <li><a href="../default/">Default</a></li>
-                            <li class="divider"></li>
-                            <li><a href="../cerulean/">Cerulean</a></li>
-                            <li><a href="../cosmo/">Cosmo</a></li>
-                            <li><a href="../cyborg/">Cyborg</a></li>
-                            <li><a href="../darkly/">Darkly</a></li>
-                            <li><a href="../flatly/">Flatly</a></li>
-                            <li><a href="../journal/">Journal</a></li>
-                            <li><a href="../lumen/">Lumen</a></li>
-                            <li><a href="../paper/">Paper</a></li>
-                            <li><a href="../readable/">Readable</a></li>
-                            <li><a href="../sandstone/">Sandstone</a></li>
-                            <li><a href="../simplex/">Simplex</a></li>
-                            <li><a href="../slate/">Slate</a></li>
-                            <li><a href="../spacelab/">Spacelab</a></li>
-                            <li><a href="../superhero/">Superhero</a></li>
-                            <li><a href="../united/">United</a></li>
-                            <li><a href="../yeti/">Yeti</a></li>
-                        </ul>
+{#                    <li>#}
+{#                        <a href="{% url 'authors' %}">Authors</a>#}
+{#                    </li>#}
+                    <li>
+                        <a href="{% url 'all_articles' %}">All articles</a>
                     </li>
                     <li>
-                        <a href="../help/">Help</a>
-                    </li>
-                    <li>
-                        <a href="http://news.bootswatch.com">Blog</a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Paper
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" aria-labelledby="download">
-                            <li>
-                                <a href="http://jsfiddle.net/bootswatch/ndax7sh7/">Open Sandbox</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="./bootstrap.min.css">bootstrap.min.css</a>
-                            </li>
-                            <li><a href="./bootstrap.css">bootstrap.css</a></li>
-                            <li class="divider"></li>
-                            <li><a href="./variables.less">variables.less</a></li>
-                            <li><a href="./bootswatch.less">bootswatch.less</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="./_variables.scss">_variables.scss</a>
-                            </li>
-                            <li><a href="./_bootswatch.scss">_bootswatch.scss</a>
-                            </li>
-                        </ul>
+                        <a href="{% url 'word_cloud' %}">Word cloud</a>
                     </li>
                 </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a>
-                    </li>
-                    <li>
-                        <a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a>
-                    </li>
-                </ul>
-
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user.email }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="download">
+                                <li><a href="{% url 'editor' %}">Editor</a></li>
+                                <li><a href="{% url 'account_settings' %}">Settings</a></li>
+                                {% if user.is_admin %}
+                                <li><a href="{% url 'admin' %}">Administration</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="container">
         {% block contents %}{% endblock %}
-    </div>
+
 
     <footer>
         <div class="row">
