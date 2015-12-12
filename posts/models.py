@@ -9,17 +9,8 @@ class History(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey('self', null=True)
     patch = models.TextField()
+    patch_reverse = models.TextField()
     author = models.ForeignKey(User)
-
-    def __init__(self, patch, author, parent=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.patch = patch
-        self.author = author
-        if parent:
-            self.parent = parent
-
-    def __str__(self):
-        return ''
 
     def get_authors(self):
         authors_ids = [self.author.id]
@@ -32,16 +23,19 @@ class History(models.Model):
                     authors.append(author)
         return authors
 
-    def get_contents(self, base):
-        contents = base
-        parent = self.parent
-        patch = self.patch
+    def get_contents(self):
+        history = [self]
+        h = self.parent
+        while h:
+            history.insert(0, h)
+            h = h.parent
         dmp = diff_match_patch.diff_match_patch()
-        while parent:
-            patchs = dmp.patch_fromText(patch)
+        dmp.Diff_Timeout = 0
+        contents = ""
+        for h in history:
+            patchs = dmp.patch_fromText(h.patch_reverse)
             contents = dmp.patch_apply(patchs, contents)[0]
-            parent = parent.parent
-            patch = parent.patch
+        return contents
 
 
 class Tag(models.Model):
@@ -55,7 +49,7 @@ class Article(models.Model):
     last_modified_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
     contents = models.TextField()
-    history = models.ForeignKey(History, null=True)
+    history = models.ForeignKey(History, null=True, on_delete=models.CASCADE,)
     authors = models.ManyToManyField(User)
     tags = models.ManyToManyField(Tag)
     LANGUAGES_CHOICES = (
@@ -63,25 +57,44 @@ class Article(models.Model):
         ('EN', 'English'),
     )
     language = models.CharField(max_length=2, choices=LANGUAGES_CHOICES)
+    STATE_CHOICES = (
+        ('PU', 'Published'),
+        ('DR', 'Draft'),
+        ('RE', 'Removed'),
+    )
+    state = models.CharField(max_length=2, choices=STATE_CHOICES, default='DR')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
     def update_contents(self, author, new_contents):
         dmp = diff_match_patch.diff_match_patch()
         dmp.Diff_Timeout = 0
         patchs = dmp.patch_make(new_contents, self.contents)
+        if patchs == []:
+            return
+        patchs_reverse = dmp.patch_make(self.contents, new_contents)
         patch = dmp.patch_toText(patchs)
-        new_history = History(patch, author, self.history)
+        patch_reverse = dmp.patch_toText(patchs_reverse)
+        new_history = History(patch=patch,
+                              patch_reverse=patch_reverse,
+                              author=author,
+                              parent=self.history)
         new_history.save()
         self.history = new_history
-        for user in new_history.get_authors():
-            self.authors.add(user)
+        self.authors.add(author)
+        self.contents = new_contents
         self.save()
 
     def created_by(self):
-        history = self.history
-        while history:
-            if history.parent is None:
-                return history.author
-            history = history.parent
+        if self.history:
+            history = self.history
+            while history:
+                if history.parent is None:
+                    return history.author
+                history = history.parent
 
     def last_modified_by(self):
-        return self.history.author
+        if self.history:
+            return self.history.author

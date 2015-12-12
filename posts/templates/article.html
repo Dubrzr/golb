@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% load static %}
+
+{% block contents %}
+    <div class="page-header" id="banner">
+        <h2>
+            {{ article.title }}
+        </h2>
+        {% autoescape off %}{{ article.contents }}{% endautoescape %}
+        <h6>Created: {{ article.created_at }} by {{ article.created_by }}</h6>
+        <h6>Last modified: {{ article.last_modified_at }} by {{ article.history.author }}</h6>
+{% endblock %}

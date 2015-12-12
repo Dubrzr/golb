@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.files import File
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, render, redirect
+from django.shortcuts import render_to_response, render, redirect,\
+    get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
@@ -20,7 +21,7 @@ def home(request):
 
 def custom_login(request):
     if request.user.is_authenticated():
-        raise Http404()
+        return redirect('admin')
 
     error = None
     if request.POST:
@@ -113,19 +114,3 @@ def del_user(request):
         u.delete()
 
     return redirect('admin')
-
-
-def all_articles(request):
-    return None
-
-@login_required
-def editor(request, error=None):
-    context = {
-        'articles': Article.objects.all(),
-        'error': error
-    }
-    return render(
-        request,
-        'editor.html',
-        context
-    )
