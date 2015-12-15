@@ -13,47 +13,47 @@
         <li><a  href="{% url "admin_articles" %}">Articles</a></li>
         <li class="active">Editor</li>
     </ul>
-    <div class="row">
-        <div class="col-md-4">
-            <button type="reset" class="btn btn-default btn-lg">Reset</button>
-            <button type="submit" class="btn btn-primary btn-lg">Save</button>
-            <a href="{% url "history_article" id=article.id %}" class="btn btn-info btn-lg">History</a>
-        </div>
-        <div class="col-md-4">
-            <h4>Current state:
-            {% if article.state == "PU" %}
-                <a href="#" class="btn btn-default disabled">Published</a>
-            {% endif %}
-            {% if article.state == "RE" %}
-                <a href="#" class="btn btn-success disabled">Review</a>
-            {% endif %}
-            {% if article.state == "DR" %}
-                <a href="#" class="btn btn-warning disabled">Draft</a>
-            {% endif %}
-            {% if article.state == "DE" %}
-                <a href="#" class="btn btn-danger disabled">Removed</a>
-            {% endif %}
-            </h4>
-        </div>
-        <div class="col-md-4">
-            {% if article.state != "PU" %}
-                <a href="{% url "update_state_article" id=article.id state="PU" %}" class="btn btn-default btn-lg">Publish</a>
-            {% endif %}
-            {% if article.state != "RE" %}
-                <a href="{% url "update_state_article" id=article.id state="RE" %}" class="btn btn-success btn-lg">Review</a>
-            {% endif %}
-            {% if article.state != "DR" %}
-                <a href="{% url "update_state_article" id=article.id state="DR" %}" class="btn btn-warning btn-lg">Draft</a>
-            {% endif %}
-            {% if article.state != "DE" %}
-                <a href="{% url "update_state_article" id=article.id state="DE" %}" class="btn btn-danger btn-lg">Remove</a>
-            {% endif %}
-        </div>
-    </div>
     <form method="post">{% csrf_token %}
-            <br>
-            <input name="title" type="text" style="font-size: 20px;" class="form-control" id="inputUsername" value="{{ article.title }}">
-            <textarea name="contents">{{ contents }}</textarea>
+        <div class="row">
+            <div class="col-md-4">
+                <button type="reset" class="btn btn-default btn-lg">Reset</button>
+                <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                <a href="{% url "history_article" id=article.id %}" class="btn btn-info btn-lg">History</a>
+            </div>
+            <div class="col-md-4">
+                <h4>Current state:
+                {% if article.state == "PU" %}
+                    <a href="#" class="btn btn-default disabled">Published</a>
+                {% endif %}
+                {% if article.state == "RE" %}
+                    <a href="#" class="btn btn-success disabled">Review</a>
+                {% endif %}
+                {% if article.state == "DR" %}
+                    <a href="#" class="btn btn-warning disabled">Draft</a>
+                {% endif %}
+                {% if article.state == "DE" %}
+                    <a href="#" class="btn btn-danger disabled">Removed</a>
+                {% endif %}
+                </h4>
+            </div>
+            <div class="col-md-4">
+                {% if article.state != "PU" %}
+                    <a href="{% url "update_state_article" id=article.id state="PU" %}" class="btn btn-default btn-lg">Publish</a>
+                {% endif %}
+                {% if article.state != "RE" %}
+                    <a href="{% url "update_state_article" id=article.id state="RE" %}" class="btn btn-success btn-lg">Review</a>
+                {% endif %}
+                {% if article.state != "DR" %}
+                    <a href="{% url "update_state_article" id=article.id state="DR" %}" class="btn btn-warning btn-lg">Draft</a>
+                {% endif %}
+                {% if article.state != "DE" %}
+                    <a href="{% url "update_state_article" id=article.id state="DE" %}" class="btn btn-danger btn-lg">Remove</a>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <input name="title" type="text" style="font-size: 20px;" class="form-control" id="inputUsername" value="{{ article.title }}">
+        <textarea name="contents">{{ contents }}</textarea>
     </form>
 {% endblock %}
 
