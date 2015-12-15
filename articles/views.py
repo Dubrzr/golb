@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.cache import never_cache, cache_control
+from django.shortcuts import render, get_object_or_404
 from articles.models import Article, History
 
 
@@ -64,7 +63,7 @@ def add(request):
 
     if error:
         return admin(request, error)
-    return redirect('admin_articles')
+    return admin(request)
 
 
 @login_required
@@ -103,8 +102,6 @@ def delete(request, id):
     article.save()
 
 
-@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
-@never_cache
 @login_required
 def history(request, id):
     article = get_object_or_404(Article, id=id)
@@ -136,8 +133,6 @@ def article(request, id):
     )
 
 
-@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
-@never_cache
 @login_required
 def update_state(request, id, state):
     if state not in [c[0] for c in Article.STATE_CHOICES]:
@@ -145,4 +140,4 @@ def update_state(request, id, state):
     article = get_object_or_404(Article, id=id)
     article.state = state
     article.save()
-    return redirect('edit_article', id=id)
+    return edit(request, id=id)

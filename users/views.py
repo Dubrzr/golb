@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from users.models import User
 
@@ -50,7 +50,7 @@ def add(request):
             except Exception as e:
                 error = 'Champs invalides. ({})'.format(e)
 
-    return redirect('admin_users', error=error)
+    return admin(request, error=error)
 
 
 @login_required
@@ -68,4 +68,4 @@ def delete(request):
             raise Http404()
         u.delete()
 
-    return redirect('admin_users')
+    return admin(request)
