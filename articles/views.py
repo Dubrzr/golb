@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.cache import never_cache
-
+from django.views.decorators.cache import never_cache, cache_control
 from articles.models import Article, History
 
 
@@ -104,6 +103,7 @@ def delete(request, id):
     article.save()
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
 @never_cache
 @login_required
 def history(request, id):
@@ -136,6 +136,7 @@ def article(request, id):
     )
 
 
+@cache_control(max_age=0, no_cache=True, no_store=True, must_revalidate=True)
 @never_cache
 @login_required
 def update_state(request, id, state):
