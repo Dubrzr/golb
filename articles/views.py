@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.cache import never_cache
 
 from articles.models import Article, History
 
@@ -103,6 +104,7 @@ def delete(request, id):
     article.save()
 
 
+@never_cache
 @login_required
 def history(request, id):
     article = get_object_or_404(Article, id=id)
@@ -134,6 +136,7 @@ def article(request, id):
     )
 
 
+@never_cache
 @login_required
 def update_state(request, id, state):
     if state not in [c[0] for c in Article.STATE_CHOICES]:
