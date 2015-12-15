@@ -5,10 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.cache import never_cache
 
 from articles.models import Article
 
 
+@never_cache
 def home(request):
     context = {
         'articles': Article.objects.all()
@@ -48,14 +50,19 @@ def custom_login(request):
         context_instance=RequestContext(request)
     )
 
+
+@never_cache
 def word_cloud(request):
     return None
 
+
+@never_cache
 @login_required
 def account_settings(request):
     return None
 
 
+@never_cache
 def admin(request):
     return render(
         request,

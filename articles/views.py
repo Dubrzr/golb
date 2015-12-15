@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import never_cache
+
 from articles.models import Article, History
 
 
+@never_cache
 def list_all(request):
     articles = Article.objects.all()
     years = list(set([a.created_at.year for a in articles]))
@@ -28,7 +31,7 @@ def list_all(request):
     )
 
 
-
+@never_cache
 @login_required
 def admin(request, error=None):
     context = {
@@ -43,6 +46,7 @@ def admin(request, error=None):
     )
 
 
+@never_cache
 @login_required
 def add(request):
     error = None
@@ -66,6 +70,7 @@ def add(request):
     return admin(request)
 
 
+@never_cache
 @login_required
 def edit(request, id, history_id=None):
     article = get_object_or_404(Article, id=id)
@@ -95,6 +100,7 @@ def edit(request, id, history_id=None):
     )
 
 
+@never_cache
 @login_required
 def delete(request, id):
     article = get_object_or_404(Article, id=id)
@@ -102,6 +108,7 @@ def delete(request, id):
     article.save()
 
 
+@never_cache
 @login_required
 def history(request, id):
     article = get_object_or_404(Article, id=id)
@@ -121,6 +128,7 @@ def history(request, id):
     )
 
 
+@never_cache
 def article(request, id):
     article = get_object_or_404(Article, id=id)
     context = {
@@ -133,6 +141,7 @@ def article(request, id):
     )
 
 
+@never_cache
 @login_required
 def update_state(request, id, state):
     if state not in [c[0] for c in Article.STATE_CHOICES]:
