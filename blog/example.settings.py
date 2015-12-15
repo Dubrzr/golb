@@ -14,6 +14,18 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'assets')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+# Site
+SITE_NAME = "Future is Tech"
+SITE_TITLE = "Future is Tech"
+SITE_DESCRIPTION = "Awesome blog"
+HOSTNAME = 'http://localhost/' # Must end with a slash! /!\
+SITE_URL_PREFIX = '' # Empty or your-prefix/ <- Must end with a slash /!\
+SITE_URL = HOSTNAME + SITE_URL_PREFIX
+STATIC_URL = '/static/'
+MEDIA_URL = HOSTNAME+ '/' + SITE_URL_PREFIX + 'media/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,11 +44,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # 'django.contrib.admin',
-    # 'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
+    'articles',
+    'users'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -68,9 +83,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.context_processors.site_info'
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "assets"),
 ]
 
 WSGI_APPLICATION = 'blog.wsgi.application'
@@ -105,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'blog.User'
+AUTH_USER_MODEL = 'users.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -115,9 +135,3 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-
-STATIC_URL = '/static/'
