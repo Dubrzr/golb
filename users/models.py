@@ -40,6 +40,5 @@ class User(AbstractBaseUser):
             self.is_superuser = self.is_admin
             self.is_staff = self.is_admin
             super().save(*args, **kwargs)
-            # Do more things here
         else:
             super().save(*args, **kwargs)

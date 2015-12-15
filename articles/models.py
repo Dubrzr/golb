@@ -1,7 +1,9 @@
 import diff_match_patch
 from colorful.fields import RGBColorField
+
 from django.db import models
-from blog.models import User
+
+from users.models import User
 
 
 
@@ -60,7 +62,8 @@ class Article(models.Model):
     STATE_CHOICES = (
         ('PU', 'Published'),
         ('DR', 'Draft'),
-        ('RE', 'Removed'),
+        ('DE', 'Removed'),
+        ('RE', 'Review'),
     )
     state = models.CharField(max_length=2, choices=STATE_CHOICES, default='DR')
 

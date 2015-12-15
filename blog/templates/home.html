@@ -3,11 +3,17 @@
 {% block contents %}
     <div class="page-header" id="banner">
         <div class="row">
-            <div class="col-lg-5">
-                <h2>Quote of the Day:</h2>
+            <div class="col-lg-8">
+                <ul>
+                    {% for a in articles %}
+                        <li><b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="col-md-7">
-                <blockquote class="blockquote-reverse">
+            <div class="col-md-4">
+                <h3>Random quote:</h3>
+
+                <blockquote class="blockquote">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                     <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
                 </blockquote>

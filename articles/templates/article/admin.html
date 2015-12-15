@@ -5,9 +5,16 @@
 
 {% block contents %}
     <div class="page-header" id="banner">
+    <h3>
+        Articles
+    </h3>
+    <ul class="breadcrumb">
+        <li><a href="{% url "admin" %}">Administration</a></li>
+        <li class="active">Articles</li>
+    </ul>
+    <div class="page-header" id="banner">
     <div class="row">
         <div class="col-md-12">
-            <h1>Articles</h1>
             <div class="bs-component">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#list_users" data-toggle="tab" aria-expanded="false">List</a></li>
@@ -34,16 +41,17 @@
                                 <th>Created by</th>
                                 <th>Last modified at</th>
                                 <th>Last modified by</th>
-                                <th>Actions</th>
                                 <th>State</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tbody>
                             {% for a in articles %}
-                                <tr class="{% if a.state == "PU" %}success
+                                <tr class="{% if a.state == "PU" %}default
+                                    {% elif a.state == "RE" %}success
                                     {% elif a.state == "DR" %}warning
-                                    {% elif a.state == "RE" %}danger
+                                    {% elif a.state == "DE" %}danger
                                     {% endif %}">
                                     <td>{{ a.title }}</td>
                                     <td>{{ a.history.created_at }}</td>
@@ -64,15 +72,16 @@
                                     <td>{{ a.created_by }}</td>
                                     <td>{{ a.last_modified_at }}</td>
                                     <td>{{ a.last_modified_by }}</td>
-                                    <td>{% if user.is_admin %}
-                                        <a href="{% url 'edit_article' id=a.id %}" ><button class="btn btn-primary" type="button">Editer</button></a>
-                                        {% endif %}
-                                    </td>
                                     <td>
                                         {% if a.state == "PU" %}Published
                                         {% elif a.state == "DR" %}Draft
-                                        {% elif a.state == "RE" %}Removed
+                                        {% elif a.state == "DE" %}Removed
+                                        {% elif a.state == "RW" %}Review
                                         {% endif %}
+                                    </td>
+                                    <td>{% if user.is_admin %}
+                                        <a href="{% url 'edit_article' id=a.id %}" ><button class="btn btn-primary" type="button">Editer</button></a>
+                                    {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

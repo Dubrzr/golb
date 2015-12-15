@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% load static %}
+
+{% block contents %}
+    <div class="page-header" id="banner">
+        <h3>
+            History
+        </h3>
+        <ul class="breadcrumb">
+            <li><a href="{% url "admin" %}">Administration</a></li>
+            <li><a  href="{% url "admin_articles" %}">Articles</a></li>
+            <li><a  href="{% url "edit_article" id=article.id %}">Editor</a></li>
+            <li class="active">History</li>
+        </ul>
+        <h4>{{ article.title }}</h4>
+        <ul>
+            {% for h in history %}
+                <li>
+                    <a href="{% url "edit_article" id=article.id history_id=h.id %}">{{ h.created_at }}</a>
+                    {% autoescape off %}<pre>{{ h.get_contents }}</pre>{% endautoescape %}
+                </li>
+            {% endfor %}
+        </ul>
+{% endblock %}

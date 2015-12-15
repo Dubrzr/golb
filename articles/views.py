@@ -2,24 +2,36 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
-from blog.views import admin
-from posts.models import Article, History
+from articles.models import Article, History
 
 
-def all_articles(request):
+def list_all(request):
+    articles = Article.objects.all()
+    years = list(set([a.created_at.year for a in articles]))
+
+    class Year():
+        def __init__(self, year, articles):
+            self.year = year
+            self.articles = articles
+
+    result_years = []
+    for year in years:
+        articles = Article.objects.filter(created_at__year=year)
+        result_years.append(Year(year, articles))
+
     context = {
-        'articles': Article.objects.all()
+        'years': result_years
     }
     return render(
         request,
-        'all_articles.html',
+        'article/articles.html',
         context
     )
 
 
 
 @login_required
-def editor(request, error=None):
+def admin(request, error=None):
     context = {
         'articles': Article.objects.all(),
         'error': error,
@@ -27,13 +39,13 @@ def editor(request, error=None):
     }
     return render(
         request,
-        'admin_articles.html',
+        'article/admin.html',
         context
     )
 
 
 @login_required
-def add_article(request):
+def add(request):
     error = None
     if request.POST:
         article_data = {
@@ -52,16 +64,16 @@ def add_article(request):
 
     if error:
         return admin(request, error)
-    return redirect('editor')
+    return redirect('admin_articles')
 
 
 @login_required
-def edit_article(request, id, history_id=None):
+def edit(request, id, history_id=None):
     article = get_object_or_404(Article, id=id)
     if request.POST:
         article_data = {
             'title': request.POST.get('title'),
-            'contents': request.POST.get('contents'),
+            'contents': request.POST.get('contents')
         }
         if None in [k for v, k in article_data.items()]:
             raise Http404()
@@ -75,24 +87,24 @@ def edit_article(request, id, history_id=None):
         history = get_object_or_404(History, id=history_id)
     context = {
         'article': article,
-        'contents': history.get_contents()
+        'contents': history.get_contents() if history else ""
     }
     return render(
         request,
-        'editor.html',
+        'article/editor.html',
         context
     )
 
 
 @login_required
-def del_article(request, id):
+def delete(request, id):
     article = get_object_or_404(Article, id=id)
     article.state = 'RE'
     article.save()
 
 
 @login_required
-def history_article(request, id):
+def history(request, id):
     article = get_object_or_404(Article, id=id)
     history = []
     h = article.history
@@ -105,7 +117,7 @@ def history_article(request, id):
     }
     return render(
         request,
-        'article_history.html',
+        'article/history.html',
         context
     )
 
@@ -117,6 +129,16 @@ def article(request, id):
     }
     return render(
         request,
-        'article.html',
+        'article/article.html',
         context
     )
+
+
+@login_required
+def update_state(request, id, state):
+    if state not in [c[0] for c in Article.STATE_CHOICES]:
+        raise Http404()
+    article = get_object_or_404(Article, id=id)
+    article.state = state
+    article.save()
+    return redirect('edit_article', id=id)

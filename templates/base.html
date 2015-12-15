@@ -34,7 +34,7 @@
 {#                        <a href="{% url 'authors' %}">Authors</a>#}
 {#                    </li>#}
                     <li>
-                        <a href="{% url 'all_articles' %}">All articles</a>
+                        <a href="{% url 'articles' %}">All articles</a>
                     </li>
                     <li>
                         <a href="{% url 'word_cloud' %}">Word cloud</a>
@@ -45,10 +45,9 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user.email }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="download">
-                                <li><a href="{% url 'editor' %}">Editor</a></li>
-{#                                <li><a href="{% url 'account_settings' %}">Settings</a></li>#}
+                                <li><a href="{% url 'admin_articles' %}">Articles</a></li>
                                 {% if user.is_admin %}
-                                <li><a href="{% url 'admin' %}">Administration</a></li>
+                                <li><a href="{% url 'admin_users' %}">Users</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li><a href="{% url 'logout' %}">Logout</a></li>
