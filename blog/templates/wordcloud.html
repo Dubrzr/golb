@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% load static %}
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'article.css' %}">
+{% endblock %}
+
+{% block title %}Word cloud{% endblock %}
+
+{% block contents %}
+    {{ word_cloud }}
+{% endblock %}

@@ -1,17 +1,17 @@
 {% extends 'base.html' %}{% load static %}
+w
+{% block title %}All articles{% endblock %}
 
 {% block contents %}
-    <div class="page-header" id="banner">
-        <h2>
-            All articles
-        </h2>
+    <div class="bs-docs-section clearfix">
         <ul>
             {% for year in years %}
-                <li><h4>{{ year.year }}</h4><ul>
+                <li><h3>{{ year.year }}</h3><ul>
                     {% for a in year.articles %}
                         <li><b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}</li>
                     {% endfor %}</ul>
                 </li>
             {% endfor %}
         </ul>
+    </div>
 {% endblock %}

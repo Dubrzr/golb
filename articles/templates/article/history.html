@@ -1,16 +1,21 @@
 {% extends 'base.html' %}{% load static %}
+{% block page_style %}
+    <link rel="stylesheet" href="{% static 'article.css' %}">
+{% endblock %}
+
+{% block title %}History{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li><a href="{% url "admin" %}">Administration</a></li>
+        <li><a  href="{% url "admin_articles" %}">Articles</a></li>
+        <li><a  href="{% url "edit_article" id=article.id %}">Editor</a></li>
+        <li class="active">History</li>
+    </ul>
+{% endblock %}
 
 {% block contents %}
-    <div class="page-header" id="banner">
-        <h3>
-            History
-        </h3>
-        <ul class="breadcrumb">
-            <li><a href="{% url "admin" %}">Administration</a></li>
-            <li><a  href="{% url "admin_articles" %}">Articles</a></li>
-            <li><a  href="{% url "edit_article" id=article.id %}">Editor</a></li>
-            <li class="active">History</li>
-        </ul>
+    <div class="bs-docs-section clearfix">
         <h4>{{ article.title }}</h4>
         <ul>
             {% for h in history %}
@@ -20,4 +25,5 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
 {% endblock %}

@@ -1,21 +1,20 @@
 {% extends 'base.html' %}{% load static %}
 
+{% block title %}Administration{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="active">Administration</li>
+    </ul>
+{% endblock %}
+
 {% block contents %}
-    <div class="page-header" id="banner">
-        <h3>
-            Administration
-        </h3>
-        <ul class="breadcrumb">
-            <li class="active">Administration</li>
+    <div class="bs-docs-section clearfix article">
+        <ul>
+            {% if user.is_admin %}
+                <li><a href="{% url "admin_users" %}">User administration</a></li>
+            {% endif %}
+            <li><a href="{% url "admin_articles" %}">Article administration</a></li>
         </ul>
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    {% if user.is_admin %}
-                        <li><a href="{% url "admin_users" %}">User administration</a></li>
-                    {% endif %}
-                    <li><a href="{% url "admin_articles" %}">Article administration</a></li>
-                </ul>
-            </div>
-        </div>
+    </div>
 {% endblock %}

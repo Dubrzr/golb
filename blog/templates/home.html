@@ -1,38 +1,30 @@
 {% extends 'base.html' %}{% load static %}
 
+{% block title %}Future is Tech{% endblock %}
+
 {% block contents %}
-    <div class="page-header" id="banner">
-        <div class="row">
-            <div class="col-lg-8">
-                <ul>
-                    {% for a in articles %}
-                        <li><b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h3>Random quote:</h3>
+    <div class="row">
+        <div class="col-lg-8">
+            <ul>
+                {% for a in articles %}
+                    <li>
+                        <div class="bs-docs-section clearfix">
+                            <b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}
+                            {{ a.contents }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4 ">
+            <div class="bs-docs-section clearfix">
+                <h3>Random quote</h3>
 
                 <blockquote class="blockquote">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                     <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
                 </blockquote>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-9 col-md-8 col-sm-7">
-                <h1>Paper</h1>
-                <p class="lead">Material is the metaphor</p>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-5">
-                <div class="bs-component">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tags</div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                    </div>
-                </div>
+                <h3>Tags</h3>
             </div>
         </div>
     </div>

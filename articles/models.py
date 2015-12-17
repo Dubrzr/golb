@@ -3,6 +3,7 @@ from colorful.fields import RGBColorField
 
 from django.db import models
 
+from blog.utils import html2text
 from users.models import User
 
 
@@ -51,6 +52,7 @@ class Article(models.Model):
     last_modified_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=255)
     contents = models.TextField()
+    contents_text = models.TextField()
     history = models.ForeignKey(History, null=True, on_delete=models.CASCADE,)
     authors = models.ManyToManyField(User)
     tags = models.ManyToManyField(Tag)
@@ -88,6 +90,7 @@ class Article(models.Model):
         self.history = new_history
         self.authors.add(author)
         self.contents = new_contents
+        self.contents_text = html2text(new_contents)
         self.save()
 
     def created_by(self):

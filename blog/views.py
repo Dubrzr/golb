@@ -7,7 +7,11 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
 
+# from pytagcloud import create_html_data, make_tags
+# from pytagcloud.lang.counter import get_tag_counts
+
 from articles.models import Article
+
 
 
 @never_cache
@@ -53,7 +57,18 @@ def custom_login(request):
 
 @never_cache
 def word_cloud(request):
-    return None
+    # all_text = [a.contents_text for a in Article.objects.all()]
+    # tags = make_tags(get_tag_counts(all_text), maxsize=120, minsize=5)
+    # tags = [a for a in tags if a['size'] > 7]
+    # html = create_html_data(tags, 'images/cloud_large.png', size=(700, 500), fontname='museo-sans-rounded', rectangular=True)
+    # context = {
+    #     'word_cloud': html
+    # }
+    return render(
+        request,
+        'wordcloud.html',
+        # context
+    )
 
 
 @never_cache
