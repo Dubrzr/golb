@@ -8,7 +8,7 @@
 {% block breadcrumb %}
     <ul class="breadcrumb">
         <li><a href="{% url "admin" %}">Administration</a></li>
-        <li class="active">Quotes</li>
+        <li class="active">Users</li>
     </ul>
 {% endblock %}
 
@@ -63,7 +63,7 @@
                                 <fieldset>
                                     <legend>Ajouter un utilisateur</legend>
                                     <div class="form-group">
-                                        <label for="inputEmail" class="col-lg-2 control-label">Username</label>
+                                        <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                                         <div class="col-lg-10">
                                             <input name="username" type="text" class="form-control" id="inputUsername" placeholder="Username">
                                         </div>
@@ -75,13 +75,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail" class="col-lg-2 control-label">First name</label>
+                                        <label for="inputFirstName" class="col-lg-2 control-label">First name</label>
                                         <div class="col-lg-10">
                                             <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="First name">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail" class="col-lg-2 control-label">Last name</label>
+                                        <label for="inputLastName" class="col-lg-2 control-label">Last name</label>
                                         <div class="col-lg-10">
                                             <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Last name">
                                         </div>
@@ -97,13 +97,13 @@
                                         <div class="col-lg-10">
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="type" id="optionsRadios1" value="0" checked="">
+                                                    <input type="radio" name="type" value="0" checked="">
                                                     Author
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="type" id="1" value="option2">
+                                                    <input type="radio" name="type" value="1">
                                                     Admin
                                                 </label>
                                             </div>
