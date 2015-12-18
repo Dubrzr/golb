@@ -1,6 +1,19 @@
-@import "custom.css";
+@import "fonts.css";
 
+ul
+{
+	list-style-type: none;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Lato", Calibri, Arial, sans-serif;
+}
 img {
 	max-width: 100%;
 	height: auto;
+}
+body {
+	font-family: museo-sans-rounded, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	line-height: 1.42857143;
+	color: #555;
 }

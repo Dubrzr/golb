@@ -20,6 +20,7 @@ from django.contrib.auth.views import logout
 
 from articles.urls import urlpatterns as articles_urlpatterns
 from blog import settings, views
+from blog.quotes import urls as quote_urlpatterns
 from users.urls import urlpatterns as users_urlpatterns
 
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
     url(r'^admin/$', views.admin, name='admin'),
     url(r'article/', include(articles_urlpatterns)),
     url(r'user/', include(users_urlpatterns)),
+    url(r'quote/', include(quote_urlpatterns)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

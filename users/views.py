@@ -1,18 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render
-from django.views.decorators.cache import never_cache
 
+from blog.decorators import never_ever_cache
 from users.models import User
 
 
-@never_cache
+@never_ever_cache
 def list_all(request):
     return None
 
 
-@never_cache
 @login_required
+@never_ever_cache
 def admin(request, error=None):
     if not request.user.is_admin:
         raise Http404()
@@ -28,8 +28,8 @@ def admin(request, error=None):
     )
 
 
-@never_cache
 @login_required
+@never_ever_cache
 def add(request):
     if not request.user.is_admin:
         raise Http404()
@@ -57,8 +57,8 @@ def add(request):
     return admin(request, error=error)
 
 
-@never_cache
 @login_required
+@never_ever_cache
 def delete(request):
     if not request.user.is_admin:
         raise Http404()

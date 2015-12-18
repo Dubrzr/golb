@@ -46,6 +46,7 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user.email }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="download">
                                 <li><a href="{% url 'admin_articles' %}">Articles</a></li>
+                                <li><a href="{% url 'admin_quotes' %}">Quotes</a></li>
                                 {% if user.is_admin %}
                                 <li><a href="{% url 'admin_users' %}">Users</a></li>
                                 {% endif %}

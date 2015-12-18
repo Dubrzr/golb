@@ -5,13 +5,12 @@
 {% block contents %}
     <div class="row">
         <div class="col-lg-8">
-            <ul>
+            <ul style="margin-left: -40px;">
                 {% for a in articles %}
-                    <li>
-                        <div class="bs-docs-section clearfix">
-                            <b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}
-                            {{ a.contents }}
-                        </div>
+                    <li class="bs-docs-section clearfix">
+                        <h3><a class="article-link" href="{% url "article" id=a.id %}">{{ a.title }}</a></h3>
+                        <i style="font-size: 80%;">Published by {{ a.created_by.first_name }} {{ a.created_by.last_name }} on {{ a.created_at|date:"l d F Y" }}</i>
+                        {% autoescape off %}{{ a.contents }}{% endautoescape %}
                     </li>
                 {% endfor %}
             </ul>
@@ -20,11 +19,13 @@
             <div class="bs-docs-section clearfix">
                 <h3>Random quote</h3>
 
-                <blockquote class="blockquote">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-                </blockquote>
-                <h3>Tags</h3>
+                {% if quote == None %}
+                {% else %}
+                    <blockquote class="blockquote">
+                        <p>{{ quote.contents }}</p>
+                        <small>Quote from <cite title="Source Title">{{ quote.author }}</cite></small>
+                    </blockquote>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -73,6 +73,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR,  'templates'),
             os.path.join(BASE_DIR,  'blog/templates'),
+            os.path.join(BASE_DIR,  'blog/quotes/templates'),
             os.path.join(BASE_DIR,  'articles/templates'),
             os.path.join(BASE_DIR,  'users/templates'),
         ],

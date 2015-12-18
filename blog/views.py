@@ -1,3 +1,5 @@
+from random import randint
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -5,19 +7,28 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.views.decorators.cache import never_cache
 
 # from pytagcloud import create_html_data, make_tags
 # from pytagcloud.lang.counter import get_tag_counts
 
 from articles.models import Article
+from blog.decorators import never_ever_cache
+from blog.quotes.models import Quote
 
 
-
-@never_cache
+@never_ever_cache
 def home(request):
+    quote_count = Quote.objects.count()
+    if quote_count < 1:
+        quote = None
+    else:
+        random_index = randint(0, quote_count - 1)
+        quote = Quote.objects.all()[random_index]
+
+
     context = {
-        'articles': Article.objects.all()
+        'articles': Article.objects.all(),
+        'quote': quote
     }
     return render(
         request,
@@ -55,7 +66,7 @@ def custom_login(request):
     )
 
 
-@never_cache
+@never_ever_cache
 def word_cloud(request):
     # all_text = [a.contents_text for a in Article.objects.all()]
     # tags = make_tags(get_tag_counts(all_text), maxsize=120, minsize=5)
@@ -71,13 +82,13 @@ def word_cloud(request):
     )
 
 
-@never_cache
 @login_required
+@never_ever_cache
 def account_settings(request):
     return None
 
 
-@never_cache
+@never_ever_cache
 def admin(request):
     return render(
         request,
