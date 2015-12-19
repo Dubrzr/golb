@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block contents %}
+
     <div class="bs-docs-section clearfix">
         <form method="post">{% csrf_token %}
             <div class="row">
@@ -40,7 +41,7 @@
                 </div>
                 <div class="col-md-5">
                     {% if article.state != "PU" %}
-                        <a href="{% url "update_state_article" id=article.id state="PU" %}" class="btn btn-default btn-lg">Publish</a>
+                        <a href="{% url "update_state_article" id=article.id state="PU" %}" class="btn btn-default btn-lg" onclick="return confirm('Are you sure?')">Publish</a>
                     {% endif %}
                     {% if article.state != "RE" %}
                         <a href="{% url "update_state_article" id=article.id state="RE" %}" class="btn btn-success btn-lg">Review</a>

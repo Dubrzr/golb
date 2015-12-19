@@ -46,6 +46,9 @@ def add(request):
 @login_required
 @never_ever_cache
 def delete(request):
+    if not request.user.is_admin:
+        raise Http404()
+
     if request.GET:
         quote_id = request.GET.get('quote_id')
         try:

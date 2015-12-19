@@ -27,7 +27,7 @@ def home(request):
 
 
     context = {
-        'articles': Article.objects.all(),
+        'articles': Article.objects.filter(state='PU').order_by('-created_at'),
         'quote': quote
     }
     return render(

@@ -8,7 +8,7 @@ from blog.decorators import never_ever_cache
 
 @never_ever_cache
 def list_all(request):
-    articles = Article.objects.all()
+    articles = Article.objects.filter(state='PU').order_by('-created_at')
     years = list(set([a.created_at.year for a in articles]))
 
     class Year():
@@ -18,7 +18,7 @@ def list_all(request):
 
     result_years = []
     for year in years:
-        articles = Article.objects.filter(created_at__year=year)
+        articles = articles.filter(created_at__year=year)
         result_years.append(Year(year, articles))
 
     context = {
@@ -54,6 +54,7 @@ def add(request):
         article_data = {
             'title': request.POST.get('title'),
             'language': request.POST.get('language'),
+            'authors': [request.user]
         }
         if None in [k for v, k in article_data.items()]:
             error = 'Veuillez remplir tous les champs.'
@@ -131,6 +132,9 @@ def history(request, id):
 @never_ever_cache
 def article(request, id):
     article = get_object_or_404(Article, id=id)
+    if article.state != 'PU':
+        raise Http404()
+
     context = {
         'article': article
     }
@@ -144,9 +148,9 @@ def article(request, id):
 @login_required
 @never_ever_cache
 def update_state(request, id, state):
-    if state not in [c[0] for c in Article.STATE_CHOICES]:
-        raise Http404()
     article = get_object_or_404(Article, id=id)
-    article.state = state
-    article.save()
+    try:
+        article.update_state(state)
+    except ValueError:
+        raise Http404()
     return edit(request, id=id)

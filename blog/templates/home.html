@@ -8,8 +8,8 @@
             <ul style="margin-left: -40px;">
                 {% for a in articles %}
                     <li class="bs-docs-section clearfix">
+                        <i style="font-size: 80%;">{{ a.created_at|date:"l d F Y" }}</i>
                         <h3><a class="article-link" href="{% url "article" id=a.id %}">{{ a.title }}</a></h3>
-                        <i style="font-size: 80%;">Published by {{ a.created_by.first_name }} {{ a.created_by.last_name }} on {{ a.created_at|date:"l d F Y" }}</i>
                         {% autoescape off %}{{ a.contents }}{% endautoescape %}
                     </li>
                 {% endfor %}

@@ -8,7 +8,7 @@ w
             {% for year in years %}
                 <li><h3>{{ year.year }}</h3><ul>
                     {% for a in year.articles %}
-                        <li><b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b> by {{ a.created_by }}</li>
+                        <li><b>{{ a.created_at|date:"F, l d" }}</b> <b><a href="{% url "article" id=a.id %}">{{ a.title }}</a></b></li>
                     {% endfor %}</ul>
                 </li>
             {% endfor %}

@@ -4,3 +4,4 @@ beautifulsoup4==4.4.1
 pytagcloud==0.3.5
 -e git+git://github.com/charettes/django-colorful.git#egg=django-colorful
 vext.pygame==0.4.2
+psycopg2==2.6.1

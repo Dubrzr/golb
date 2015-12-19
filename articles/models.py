@@ -2,6 +2,7 @@ import diff_match_patch
 from colorful.fields import RGBColorField
 
 from django.db import models
+from django.utils import timezone
 
 from blog.utils import html2text
 from users.models import User
@@ -50,6 +51,7 @@ class Tag(models.Model):
 class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(null=True)
     title = models.CharField(max_length=255)
     contents = models.TextField()
     contents_text = models.TextField()
@@ -72,6 +74,18 @@ class Article(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def update_state(self, new_state):
+        if new_state == self.state:
+            return
+
+        if new_state not in [c[0] for c in self.STATE_CHOICES]:
+            raise ValueError()
+
+        if new_state == 'PU' and self.published_at is None:
+            self.published_at = timezone.now()
+
+        self.state = new_state
+        self.save()
 
     def update_contents(self, author, new_contents):
         dmp = diff_match_patch.diff_match_patch()
@@ -100,6 +114,7 @@ class Article(models.Model):
                 if history.parent is None:
                     return history.author
                 history = history.parent
+        return self.authors.all()[0]
 
     def last_modified_by(self):
         if self.history:
