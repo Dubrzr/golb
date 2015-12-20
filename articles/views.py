@@ -53,8 +53,7 @@ def add(request):
     if request.POST:
         article_data = {
             'title': request.POST.get('title'),
-            'language': request.POST.get('language'),
-            'authors': [request.user]
+            'language': request.POST.get('language')
         }
         if None in [k for v, k in article_data.items()]:
             error = 'Veuillez remplir tous les champs.'
@@ -62,7 +61,7 @@ def add(request):
             try:
                 article = Article.objects.create(**article_data)
                 article.authors.add(request.user)
-
+                article.save()
             except Exception as e:
                 error = 'Champs invalides. ({})'.format(e)
 
