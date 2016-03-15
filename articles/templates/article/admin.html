@@ -81,7 +81,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                        {% if user.is_admin or user in a.authors %}
+                                        {% if user.is_admin or user in a.authors.all %}
                                             <a href="{% url 'edit_article' id=a.id %}" ><button class="btn btn-primary" type="button">Editer</button></a>
                                         {% endif %}
                                         </td>
