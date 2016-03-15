@@ -80,7 +80,8 @@
                                             {% elif a.state == "RW" %}Review
                                             {% endif %}
                                         </td>
-                                        <td>{% if user.is_admin %}
+                                        <td>
+                                        {% if user.is_admin or user in a.authors %}
                                             <a href="{% url 'edit_article' id=a.id %}" ><button class="btn btn-primary" type="button">Editer</button></a>
                                         {% endif %}
                                         </td>
