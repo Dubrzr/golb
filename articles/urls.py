@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^admin/$', views.admin, name='admin_articles'),
     url(r'^add/$', views.add, name='add_article'),
     url(r'^delete/$', views.delete, name='del_article'),
+    url(r'^file-upload/$', views.upload_file, name='upload_file'),
     url(r'^edit/(?P<id>[0-9]+)/$', views.edit, name='edit_article'),
     url(r'^edit/(?P<id>[0-9]+)/(?P<history_id>[0-9]+)/$', views.edit, name='edit_article'),
     url(r'^history/(?P<id>[0-9]+)/$', views.history, name='history_article'),

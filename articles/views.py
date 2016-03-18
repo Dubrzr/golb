@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404,  HttpResponseServerError, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-from articles.models import Article, History
+from articles.models import Article, History, UploadFile
 from blog.decorators import never_ever_cache
 
 
@@ -77,7 +77,7 @@ def edit(request, id, history_id=None):
     if request.POST:
         article_data = {
             'title': request.POST.get('title'),
-            'contents': request.POST.get('contents')
+            'contents': request.POST.get('contents'),
         }
         if None in [k for v, k in article_data.items()]:
             raise Http404()
@@ -153,3 +153,15 @@ def update_state(request, id, state):
     except ValueError:
         raise Http404()
     return edit(request, id=id)
+
+
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        if 'file' not in request.FILES:
+            return HttpResponseServerError('Internal error.')
+        new_file = UploadFile(file = request.FILES['file'])
+        new_file.save()
+        return HttpResponse("File valid!")
+
+    raise Http404()

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% load static %}
 {% block page_style %}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'dropzone.css' %}">
 {% endblock %}
 
 {% block title %}Editor{% endblock %}
@@ -14,9 +14,13 @@
 {% endblock %}
 
 {% block contents %}
-
     <div class="bs-docs-section clearfix">
         <form method="post">{% csrf_token %}
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#upload-modal">Upload file</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <button type="reset" class="btn btn-default btn-lg">Reset</button>
@@ -59,6 +63,24 @@
             <textarea name="contents">{{ contents }}</textarea>
         </form>
     </div>
+    <div class="modal fade" id="upload-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h4 class="modal-title">Upload File</h4>
+                </div>
+                <div class="modal-body">
+                  <div id="messages"></div>
+                  <form action="{% url 'upload_file' %}" class="dropzone">{% csrf_token %}
+                    <div class="fallback">
+                      <input name="file" type="file" multiple />
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -75,4 +97,6 @@
             min_height: 700
         });
     </script>
+{#    <script src="{% static 'dropzone.js' %}"></script>#}
+    <script src="{% static 'dropzone.js' %}"></script>
 {% endblock %}

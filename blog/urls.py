@@ -22,6 +22,7 @@ from articles.urls import urlpatterns as articles_urlpatterns
 from blog import settings, views
 from blog.quotes import urls as quote_urlpatterns
 from users.urls import urlpatterns as users_urlpatterns
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),

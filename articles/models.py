@@ -119,3 +119,7 @@ class Article(models.Model):
     def last_modified_by(self):
         if self.history:
             return self.history.author
+
+
+class UploadFile(models.Model):
+    file = models.FileField(upload_to='files/%Y/%m/%d')
