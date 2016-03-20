@@ -3,7 +3,7 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block contents %}
-    <div class="bs-docs-section clearfix article">
+    <div class="bs-docs-section clearfix article" id="article">
         <i style="font-size: 80%;">Published by {{ article.created_by.first_name }} {{ article.created_by.last_name }}  on {{ article.created_at|date:"l d F Y" }}</i>
         {% autoescape off %}{{ article.contents }}{% endautoescape %}
         <h6>Last modified: {{ article.last_modified_at }} by {{ article.history.author }}</h6>
@@ -32,5 +32,28 @@
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
+
+        (function() {
+          var article = document.getElementById("article");
+          var images = article.getElementsByTagName("img");
+          for (var i = 0; i < images.length; i++) {
+            images[i].className = 'imagelightbox';
+            // For each image, create a link as the direct parent of this image
+            var link_value = images[i].src;
+            var link_parent = document.createElement("a");
+            link_parent.href = link_value;
+            var tmp_parent = images[i].parentNode;
+            tmp_parent.insertBefore(link_parent, images[i]);
+            link_parent.appendChild(images[i]);
+          }
+        })();
+{#        if (window.addEventListener) { // Mozilla, Netscape, Firefox#}
+{#          window.addEventListener('load', WindowLoad, false);#}
+{#        } else if (window.attachEvent) { // IE#}
+{#          window.attachEvent('onload', WindowLoad);#}
+{#        }#}
+{#        function WindowLoad() {#}
+{#          addImageLightbox();#}
+{#        }#}
     </script>
 {% endblock %}
