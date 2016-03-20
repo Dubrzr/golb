@@ -162,6 +162,6 @@ def upload_file(request):
             return HttpResponseServerError('Internal error.')
         new_file = UploadFile(file = request.FILES['file'])
         new_file.save()
-        return HttpResponse("File valid!")
+        return HttpResponse(new_file.get_url())
 
     raise Http404()

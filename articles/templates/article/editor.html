@@ -17,9 +17,10 @@
     <div class="bs-docs-section clearfix">
         <form method="post">{% csrf_token %}
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#upload-modal">Upload file</button>
                 </div>
+                <ul id="uploads_list"></ul>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -71,12 +72,11 @@
                   <h4 class="modal-title">Upload File</h4>
                 </div>
                 <div class="modal-body">
-                  <div id="messages"></div>
-                  <form action="{% url 'upload_file' %}" class="dropzone">{% csrf_token %}
-                    <div class="fallback">
-                      <input name="file" type="file" multiple />
+                    <div class="dropzone dz-clickable" id="mydropzone">
+                        <div class="dz-default dz-message" data-dz-message="">
+                          <span>Drop files here to upload</span>
+                        </div>
                     </div>
-                  </form>
                 </div>
             </div>
         </div>
@@ -99,4 +99,26 @@
     </script>
 {#    <script src="{% static 'dropzone.js' %}"></script>#}
     <script src="{% static 'dropzone.js' %}"></script>
+    <script type="text/javascript">
+      var myDropzone = new Dropzone("div#mydropzone", {
+        url: "{% url 'upload_file' %}",
+        maxFilesize: 99, // MB
+        init: function() {
+          this.on("success", function(file, responseText) {
+            var ul = document.getElementById("uploads_list");
+            var li = document.createElement("li");
+            newlink = document.createElement('a');
+            newlink.innerHTML = file.name;
+            newlink.setAttribute('title', file.name);
+            newlink.setAttribute('href', responseText);
+            document.body.appendChild(newlink);
+            li.appendChild(newlink);
+            ul.appendChild(li);
+          });
+        },
+        headers: {
+          'X-CSRFToken': "{{ csrf_token }}"
+        }
+      });
+    </script>
 {% endblock %}

@@ -4,6 +4,7 @@ from colorful.fields import RGBColorField
 from django.db import models
 from django.utils import timezone
 
+from blog.settings import MEDIA_URL
 from blog.utils import html2text
 from users.models import User
 
@@ -123,3 +124,6 @@ class Article(models.Model):
 
 class UploadFile(models.Model):
     file = models.FileField(upload_to='files/%Y/%m/%d')
+
+    def get_url(self):
+        return self.file.url
